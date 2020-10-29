@@ -5,6 +5,8 @@ const path = require('path');
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
+console.log(productsFilePath);
+
 const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 const controller = {
@@ -30,9 +32,24 @@ const controller = {
 	
 	// Create -  Method to store
 	store: (req, res) => {
-		
+		console.log(req.body);
 
-		res.render('products', {productos: products})
+		let pathFile = path.join('src/data','newProducts.json')
+
+		let nuevoProduct = fs.readFileSync(pathFile, { encoding: 'utf-8' })
+
+		nuevoProduct = JSON.parse(nuevoProduct)
+
+		nuevoProduct.push({
+		...req.body,
+		id: nuevoProduct[nuevoProduct.length - 1].id + 1,
+		})
+
+		nuevoProduct = JSON.stringify(nuevoProduct)
+
+		fs.writeFileSync(pathFile, nuevoProduct)		
+
+		res.send('Producto Creado')
 	},
 
 	// Update - Form to edit
@@ -46,7 +63,10 @@ const controller = {
 	},
 	// Update - Method to update
 	update: (req, res) => {
-		// Do the magic
+
+
+
+		res.render('products', {productos: products})
 	},
 
 	// Delete - Delete one product from DB
