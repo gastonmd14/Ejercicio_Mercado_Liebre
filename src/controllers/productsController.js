@@ -73,7 +73,7 @@ const controller = {
 		actualProduct = JSON.parse(actualProduct)
 		
 		
-		actualProduct = actualProduct.filter(function(buscar) {
+		actualProduct = actualProduct.map(function(buscar) {
 			if(buscar.id == req.params.id) {
 				buscar.name = req.body.name,
 				buscar.price = req.body.price,
