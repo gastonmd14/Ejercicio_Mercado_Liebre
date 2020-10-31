@@ -5,7 +5,7 @@ const path = require('path');
 const productsFilePath = path.join(__dirname, '../data/productsDataBase.json');
 const products = JSON.parse(fs.readFileSync(productsFilePath, 'utf-8'));
 
-console.log(productsFilePath);
+
 
 const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
@@ -32,7 +32,6 @@ const controller = {
 	
 	// Create -  Method to store
 	store: (req, res) => {
-		console.log(req.body);
 
 		let pathFile = path.join('src/data','newProducts.json')
 
@@ -64,19 +63,57 @@ const controller = {
 	// Update - Method to update
 	update: (req, res) => {
 
+		//console.log(req.params);
+		//console.log(req.body);
 
+		let pathFile = path.join('src/data','newProducts.json')
 
-		res.render('products', {productos: products})
+		let actualProduct = fs.readFileSync(pathFile, { encoding: 'utf-8' })
+
+		actualProduct = JSON.parse(actualProduct)
+		
+		
+		actualProduct = actualProduct.filter(function(buscar) {
+			if(buscar.id == req.params.id) {
+				buscar.name = req.body.name,
+				buscar.price = req.body.price,
+				buscar.discount = req.body.discount,
+				buscar.category = req.body.category,
+				buscar.description = req.body.description
+				return buscar
+			}
+		})
+		
+		
+		actualProduct = JSON.stringify(actualProduct)
+	
+		fs.writeFileSync(pathFile, actualProduct)
+		
+
+		res.send('Producto Actualizado!!')
 	},
 
 	// Delete - Delete one product from DB
 	destroy : (req, res) => {
-		let borrar = products.find(function(buscar) {
-			if(buscar.id == req.params.id) {
+
+		let pathFile = path.join('src/data','newProducts.json')
+
+		let actualProduct = fs.readFileSync(pathFile, { encoding: 'utf-8' })
+
+		actualProduct = JSON.parse(actualProduct)
+		
+		
+		actualProduct = actualProduct.filter(function(buscar) {
+			if(buscar.id != req.params.id) {
 				return buscar
 			}
 		})
-		res.render('product', {borrar: borrar})
+	
+		actualProduct = JSON.stringify(actualProduct)
+	
+		fs.writeFileSync(pathFile, actualProduct)
+
+		res.send('Producto Borrado!!')
 	}
 };
 
