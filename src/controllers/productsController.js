@@ -12,7 +12,7 @@ const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const controller = {
 	// Root - Show all products
 	index: (req, res) => {
-		res.render('products', {productos: products})
+		res.render('products', {productos: products, convertir: toThousand})
 	},
 
 	// Detail - Detail from one product
@@ -22,7 +22,9 @@ const controller = {
 				return encontrar
 			}
 		})
-		res.render('detail', {detalle: detalle})
+
+		console.log(detalle);
+		res.render('detail', {detalle: detalle, convertir: toThousand})
 	},
 
 	// Create - Form to create

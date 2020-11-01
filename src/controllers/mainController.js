@@ -10,12 +10,14 @@ const controller = {
 	index: (req, res) => {
 		 let visitada = products.filter(function (estadoVisitada) {
 			if(estadoVisitada.category == 'visited') {
+				estadoVisitada.price = toThousand(estadoVisitada.price)
 				return estadoVisitada
 			} 
 		})
 
 		let ofertada = products.filter(function (estadoOfertada) {
 			if(estadoOfertada.category == 'in-sale') {
+				estadoOfertada.price = toThousand(estadoOfertada.price)
 				return estadoOfertada
 			} 
 		})

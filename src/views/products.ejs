@@ -21,8 +21,8 @@
 							<img src="/images/products/<%= produ.image %>" alt="imagen de producto">
 						</figure>
 						<article class="product-box_data">
-							<h2>$ <%= produ.price %></h2>
-							<span><%= produ.discount %>% OFF</span>
+							<h2>$ <%= convertir(produ.price) %></h2>
+							<span><%= convertir(produ.discount) %>% OFF</span>
 							<p><%= produ.name %></p>
 							<i class="fas fa-truck"></i>
 						</article>

@@ -27,17 +27,20 @@
 						<h2 class="product-detail-title"><%= detalle.name %></h2>
 						
 							<p class="product-detail-price small">
-								<span>$<%= detalle.price %></span>
+								<span>$<%= convertir(detalle.price) %></span>
 								/
 								<b><%= detalle.discount %>% OFF</b>
 							</p>
-							<p class="product-detail-price">
-								$ <%= detalle.price %>
-							</p>
-							<p class="product-detail-price">
-								$ <%= detalle.price %>
-							</p>
-
+							<% if (detalle.discount > 0) { %>							
+								<p class="product-detail-price">
+									<% precioFinal = (detalle.price - detalle.discount) %>
+									$ <%= convertir(precioFinal) %>
+								</p>
+							<% } else { %>
+								<p class="product-detail-price">
+									$ <%= convertir(detalle.price) %>
+								</p>
+							<% } %>
 						<ul class="actions-list">
 							<li>
 								<i class="fas fa-credit-card"></i>
